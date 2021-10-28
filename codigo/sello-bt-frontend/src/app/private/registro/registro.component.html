@@ -1,0 +1,234 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Registro Datos Empresa</mat-card-title>
+                    <mat-card-subtitle>*campos requeridos</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <form [formGroup]=frmRegistroEmpresa>
+                        <div class="row">
+                            <!-- Tratar Representante Legal -->
+                            <div class="col-sm-12">
+                                <mat-label style="font-weight: bold;">Representante Legal</mat-label>
+                                <div class="row" style="border-style: solid; border-width: 1px;">
+                                    <div class="col-sm-12" style="margin-top: 1%;">
+                                        <h3></h3>
+                                    </div>
+                                    <!-- 1ra fila cédula - dirección -->
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>Cédula:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Cédula Representante</mat-label>
+                                            <input matInput style="text-align: center;" maxlength="10"
+                                                (blur)="buscarCedulaRep()" formControlName="cedulaRep" name="documento"
+                                                DirectivaNumeros>
+                                        </mat-form-field>
+
+                                        <button mat-icon-button (click)="buscarCedulaRep()">
+                                            <mat-icon>search</mat-icon>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Dirección:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Dirección</mat-label>
+                                            <textarea matInput formControlName="direccionRep"
+                                                name="documento"></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- 2da fila nombre - RUC -->
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Nombre:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Nombre</mat-label>
+                                            <textarea matInput formControlName="nombreRep" name="documento"
+                                                oninput="javascript:this.value=this.value.toUpperCase();"
+                                                readonly></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*RUC:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>RUC (9999999999001)</mat-label>
+                                            <input matInput style="text-align: center;" maxlength="13"
+                                                formControlName="ruc" name="documento" DirectivaNumeros>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- 3ra fila empresa - vacío -->
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Empresa:</h3>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Empresa</mat-label>
+                                            <textarea matInput formControlName="nombreEmp" name="documento"
+                                                oninput="javascript:this.value=this.value.toUpperCase();"></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- 4ta fila cargo - teléfono -->
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Cargo:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Cargo</mat-label>
+                                            <textarea matInput formControlName="cargoRep" name="documento"
+                                                oninput="javascript:this.value=this.value.toUpperCase();"></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Teléfono:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Teléfono (029999999)</mat-label>
+                                            <input matInput style="text-align: center;" maxlength="10"
+                                                formControlName="telefonoRep" name="documento" DirectivaNumeros>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- 5ta fila correo - sector -->
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Correo:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Correo (c@c.com)</mat-label>
+                                            <input matInput style="text-align: center; text-transform:lowercase;"
+                                                formControlName="correoRep" name="documento">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Sector:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Sector</mat-label>
+                                            <input type="text" matInput formControlName="sector" name="documento"
+                                                [matAutocomplete]="autoSector">
+                                            <mat-autocomplete #autoSector="matAutocomplete">
+                                                <mat-option
+                                                    *ngFor="let sectorSeleccionado of filteredOptionSectores | async"
+                                                    [value]="sectorSeleccionado.semNombre">
+                                                    {{sectorSeleccionado.semNombre}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tratar Contacto -->
+                            <div class="col-sm-12">
+                                <div class="col-sm-12" style="margin-top: 1%;">
+                                    <h3></h3>
+                                </div>
+                                <mat-label style="font-weight: bold;">Contacto</mat-label>
+                                <div class="row" style="border-style: solid; border-width: 1px;">
+                                    <div class="col-sm-12" style="margin-top: 1%;">
+                                        <h3></h3>
+                                    </div>
+                                    <!-- 1ra fila cédula - dirección -->
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>Cédula:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Cédula Contacto</mat-label>
+                                            <input matInput style="text-align: center;" maxlength="10"
+                                                (blur)="buscarCedulaCon()" formControlName="cedulaCon" name="documento"
+                                                DirectivaNumeros>
+                                        </mat-form-field>
+
+                                        <button mat-icon-button (click)="buscarCedulaCon()">
+                                            <mat-icon>search</mat-icon>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Dirección:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Dirección</mat-label>
+                                            <textarea matInput formControlName="direccionCon"
+                                                name="documento"></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- 2da fila nombre - vacío -->
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Nombre:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Nombre</mat-label>
+                                            <textarea matInput formControlName="nombreCon" name="documento"
+                                                oninput="javascript:this.value=this.value.toUpperCase();"
+                                                readonly></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Correo:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Correo (c@c.com)</mat-label>
+                                            <input matInput style="text-align: center; text-transform:lowercase;"
+                                                formControlName="correoCon" name="documento">
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- 3ra fila cargo - celular -->
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Cargo:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Cargo</mat-label>
+                                            <textarea matInput formControlName="cargoCon" name="documento"
+                                                oninput="javascript:this.value=this.value.toUpperCase();"></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-2" style="margin-top: 1%;">
+                                        <h3>*Celular:</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field appearance="outline" class="width-select">
+                                            <mat-label>Celular (0999999999)</mat-label>
+                                            <input matInput style="text-align: center;" maxlength="10"
+                                                formControlName="celularCon" name="documento" DirectivaNumeros>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12" style="margin-top: 1%;">
+                                <h3></h3>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <button mat-flat-button color="primary" [disabled]="!frmRegistroEmpresa.valid"
+                                    style="background-color: #0d47a1; margin: 10px"
+                                    (click)="guardarRegistro()">Guardar</button>
+                                <button mat-flat-button color="primary"
+                                    style="background-color: #0d47a1; margin-left: 10px"
+                                    (click)="reiniciarPagina()">Limpiar</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="fire" [fullScreen]="true">
+    <p style="color: white"> Cargando... </p>
+</ngx-spinner>
